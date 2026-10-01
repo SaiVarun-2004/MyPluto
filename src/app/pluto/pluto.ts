@@ -195,6 +195,76 @@ const UI_CSS = `
 .pluto-env[data-env='reef']{background:linear-gradient(to bottom,rgba(0,170,170,.16),rgba(255,120,90,.12)),repeating-linear-gradient(105deg,rgba(255,255,255,.09) 0 5%,transparent 5% 13%)}
 @keyframes pluto-rays{from{transform:translateX(-2%)}to{transform:translateX(2%)}}
 @media (prefers-reduced-motion:reduce){.pluto-env{animation:none!important}}
+/* =========================================================
+   MOBILE CONTROLS
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .pluto-bar {
+    /*
+      Toy controls sit above the food tray.
+    */
+    bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+
+    /*
+      Never allow the toolbar to become wider than the phone.
+    */
+    max-width: calc(100% - 20px);
+
+    /*
+      Keep all toy controls on one compact row.
+    */
+    gap: 5px;
+    padding: 5px 7px;
+
+    /*
+      Prevent the bar from being accidentally clipped.
+    */
+    box-sizing: border-box;
+  }
+
+  .pluto-btn {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    flex: 0 0 30px;
+  }
+
+  .pluto-sep {
+    height: 18px;
+    flex: 0 0 1px;
+  }
+
+  .pluto-panel {
+    /*
+      Journal should also fit comfortably on a phone.
+    */
+    top: 10px;
+    right: 10px;
+    width: calc(100% - 20px);
+    max-width: none;
+    max-height: calc(100% - 100px);
+    box-sizing: border-box;
+  }
+}
+
+/* Very narrow phones */
+@media (max-width: 360px) {
+  .pluto-bar {
+    gap: 3px;
+    padding: 4px 5px;
+    bottom: calc(54px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .pluto-btn {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+    line-height: 28px;
+    font-size: 15px;
+  }
+}
 `;
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -2053,7 +2123,7 @@ export class PlutoComponent implements AfterViewInit, OnDestroy {
     Object.assign(tray.style, {
       position: 'absolute',
       left: '50%',
-      bottom: 'calc(12px + env(safe-area-inset-bottom, 0px))',
+      bottom: 'calc(8px + env(safe-area-inset-bottom, 0px))',
       transform: 'translateX(-50%)',
       display: 'flex',
       gap: '10px',

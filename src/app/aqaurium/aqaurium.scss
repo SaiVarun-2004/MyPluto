@@ -905,3 +905,84 @@
 @keyframes giftFloat{50%{transform:translateY(-5px) rotate(-2deg)}100%{transform:translateY(0) rotate(0)}}
 @media(max-width:600px){.pluto-gift__topbar{top:max(10px,env(safe-area-inset-top));left:10px;right:10px}.pluto-gift__brand strong{font-size:17px}.pluto-gift__brand small{font-size:9px}.pluto-gift__brand>span,.pluto-gift__icon-btn{width:35px;height:35px}.pluto-gift__hint{top:58px;font-size:10px}.pluto-gift__card{padding:25px 20px;border-radius:24px}.pluto-gift__card h1{font-size:28px}.pluto-gift__sheet{width:min(94vw,420px);padding:24px 15px 20px;border-radius:24px}.pluto-gift__days{grid-template-columns:repeat(5,1fr);gap:5px}.pluto-gift__days button{padding:7px 2px;border-radius:11px}.pluto-gift__days .day-icon{font-size:17px}.pluto-gift__modal{padding:10px}.pluto-gift__sheet .pluto-gift__primary{width:100%}}
 @media(prefers-reduced-motion:reduce){.pluto-gift__heart{animation:none}}
+/* =========================================================
+   MOBILE AQUARIUM LAYOUT
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .aquarium {
+    /*
+      Give the aquarium a real viewport-based height on phones.
+      This prevents the lower seabed from being pushed outside
+      the visible screen.
+    */
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+
+    /*
+      Prevent the aquarium itself from creating a page crop/scroll
+      caused by decorative layers extending outside the viewport.
+    */
+    overflow: hidden;
+
+    /*
+      Keep the aquarium as the positioning context for Pluto,
+      seabed and the floating controls.
+    */
+    position: relative;
+  }
+
+  /*
+    Keep the seabed fully inside the phone viewport.
+    The desktop proportions are intentionally softened on mobile.
+  */
+  .seabed {
+    height: 25%;
+    min-height: 135px;
+    max-height: 190px;
+    bottom: 0;
+  }
+
+  /*
+    Sand layers fill the seabed instead of extending beyond
+    the visible bottom edge.
+  */
+  .sand-dunes {
+    height: 100%;
+    bottom: 0;
+  }
+
+  .sand-layer {
+    width: 100%;
+    height: 100%;
+  }
+
+  /*
+    Keep rocks and plants inside the visible sand region.
+  */
+  .rocks,
+  .plants {
+    height: 100%;
+    bottom: 0;
+  }
+
+  /*
+    Prevent foreground decoration from covering too much
+    of the phone's already-limited vertical space.
+  */
+  .foreground-glow {
+    bottom: 0;
+    height: 22%;
+    max-height: 150px;
+    pointer-events: none;
+  }
+}
+
+/* Smaller phones */
+@media (max-width: 390px) {
+  .seabed {
+    height: 23%;
+    min-height: 125px;
+  }
+}
