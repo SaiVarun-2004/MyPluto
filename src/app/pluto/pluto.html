@@ -1,0 +1,184 @@
+<div class="pluto">
+  <div class="pluto__flip">
+  <svg
+    class="pluto-fish"
+    viewBox="0 0 400 340"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Pluto the blue tang"
+    role="img"
+  >
+    <defs>
+      <!-- Body stops: the attribute colours are the adult blue (fallback). pluto.scss blends them
+           with the juvenile yellow via --pluto-blue where color-mix() is supported. -->
+      <linearGradient id="plutoBodyGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop class="pluto__stop-body-a" offset="0%" stop-color="#3f93ff" />
+        <stop class="pluto__stop-body-b" offset="100%" stop-color="#1a3fc4" />
+      </linearGradient>
+
+      <linearGradient id="plutoYellowGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#e69d00" />
+        <stop offset="100%" stop-color="#ffdb00" />
+      </linearGradient>
+
+      <radialGradient id="plutoIrisGrad" cx="40%" cy="40%" r="65%">
+        <stop offset="0%" stop-color="#f0398a" />
+        <stop offset="100%" stop-color="#7a0c40" />
+      </radialGradient>
+
+      <clipPath id="plutoBodyClip">
+        <path
+          d="M332 176 C332 102 272 52 196 52 C116 52 62 106 62 172
+             C62 238 116 292 196 292 C272 292 332 246 332 176 Z"
+        />
+      </clipPath>
+    </defs>
+
+    <!-- Tail (forked, yellow) -->
+    <g class="pluto__layer-tail">
+      <path
+        d="M72 172 C46 150 22 120 8 80 C2 130 4 214 8 262 C22 222 46 194 72 176 Z"
+        fill="url(#plutoYellowGrad)"
+      />
+      <path d="M72 172 C46 150 22 120 8 80" fill="none" stroke="#0a0e1a" stroke-width="5" stroke-linecap="round" />
+      <path d="M72 176 C46 194 22 222 8 262" fill="none" stroke="#0a0e1a" stroke-width="5" stroke-linecap="round" />
+    </g>
+
+    <!-- Dorsal fin -->
+    <path
+      class="pluto__layer-dorsal"
+      d="M140 62 C170 14 252 16 282 70 Z"
+      fill="#2160e0"
+      stroke="#0a0e1a"
+      stroke-width="5"
+      stroke-linejoin="round"
+    />
+
+    <!-- Anal fin -->
+    <path
+      class="pluto__layer-anal"
+      d="M150 284 C176 326 232 326 256 290 Z"
+      fill="#2160e0"
+      stroke="#0a0e1a"
+      stroke-width="5"
+      stroke-linejoin="round"
+    />
+
+    <!-- Body -->
+    <path
+      class="pluto__layer-body"
+      d="M332 176 C332 102 272 52 196 52 C116 52 62 106 62 172
+         C62 238 116 292 196 292 C272 292 332 246 332 176 Z"
+      fill="url(#plutoBodyGrad)"
+    />
+
+    <!-- Palette stripe, hook mark and belly highlight, clipped to the body -->
+    <g clip-path="url(#plutoBodyClip)">
+      <path
+        class="pluto__layer-stripe"
+        d="M290 66 C204 34 102 66 66 138 C58 160 58 186 66 208
+           C92 166 142 130 204 130 C250 130 276 108 290 66 Z"
+        fill="#0a0e1a"
+      />
+      <path
+        d="M158 246 C190 226 202 204 196 180 C230 190 242 224 222 252
+           C204 264 176 262 158 246 Z"
+        fill="#0a0e1a"
+      />
+      <ellipse class="pluto__belly" cx="236" cy="244" rx="74" ry="26" fill="#8cc4ff" opacity="0.28" />
+    </g>
+
+    <!-- Cheek blush -->
+    <ellipse cx="296" cy="196" rx="16" ry="10" fill="#ff7aa8" opacity="0.35" />
+
+    <!-- Big goofy eye -->
+    <g class="pluto__layer-eye">
+      <circle cx="262" cy="140" r="36" fill="#0a0e1a" opacity="0.25" />
+      <circle cx="262" cy="138" r="34" fill="#ffffff" />
+      <g class="pluto__layer-pupil">
+        <circle cx="268" cy="142" r="20" fill="url(#plutoIrisGrad)" />
+        <circle cx="269" cy="143" r="10" fill="#05010a" />
+        <circle cx="262" cy="134" r="6" fill="#ffffff" />
+        <circle cx="275" cy="150" r="2.5" fill="#ffffff" opacity="0.75" />
+      </g>
+    </g>
+
+    <!-- Cheerful mouth -->
+    <path
+      class="pluto__layer-mouth"
+      d="M326 186 C320 202 304 208 292 200"
+      fill="none"
+      stroke="#0a0e1a"
+      stroke-width="4"
+      stroke-linecap="round"
+    />
+
+    <!-- Pectoral fin -->
+    <g class="pluto__layer-fin-front">
+      <path
+        class="pluto__fin-front-fill"
+        d="M214 188 C260 202 276 244 252 276 C226 256 208 224 214 188 Z"
+        fill="#2d70ec"
+        stroke="#0a0e1a"
+        stroke-width="4"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M252 276 C276 244 260 202 214 188 C252 210 262 246 252 276 Z"
+        fill="url(#plutoYellowGrad)"
+      />
+    </g>
+
+    <!-- Wardrobe. Drawn last so it sits on top; shown via host[data-outfit] (see pluto.scss).
+         Tweak the rotate() centres if you want to nudge them along the head curve. -->
+    <g class="pluto__acc pluto__acc--crown" transform="rotate(22 258 66)">
+      <path
+        d="M230 70 L234 34 L248 52 L258 26 L268 52 L282 34 L286 70 Z"
+        fill="#ffd23f"
+        stroke="#0a0e1a"
+        stroke-width="4"
+        stroke-linejoin="round"
+      />
+      <circle cx="234" cy="34" r="5" fill="#ff6f61" stroke="#0a0e1a" stroke-width="2" />
+      <circle cx="258" cy="26" r="5" fill="#8cc4ff" stroke="#0a0e1a" stroke-width="2" />
+      <circle cx="282" cy="34" r="5" fill="#ff6f61" stroke="#0a0e1a" stroke-width="2" />
+    </g>
+
+    <g class="pluto__acc pluto__acc--shades">
+      <path d="M232 126 L170 112" fill="none" stroke="#0a0e1a" stroke-width="5" stroke-linecap="round" />
+      <ellipse cx="264" cy="140" rx="40" ry="31" fill="#0a0e1a" opacity="0.88" />
+      <path d="M240 128 L262 116" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.5" />
+    </g>
+
+    <g class="pluto__acc pluto__acc--bow" transform="rotate(22 238 64)">
+      <path d="M238 64 L206 46 L206 82 Z" fill="#ff7aa8" stroke="#0a0e1a" stroke-width="4" stroke-linejoin="round" />
+      <path d="M238 64 L270 46 L270 82 Z" fill="#ff7aa8" stroke="#0a0e1a" stroke-width="4" stroke-linejoin="round" />
+      <circle cx="238" cy="64" r="9" fill="#ff4f8a" stroke="#0a0e1a" stroke-width="4" />
+    </g>
+
+    <g class="pluto__acc pluto__acc--party" transform="rotate(22 260 66)">
+      <path d="M232 70 L262 8 L288 70 Z" fill="#8a5cff" stroke="#0a0e1a" stroke-width="4" stroke-linejoin="round" />
+      <path d="M247 44 L277 44" fill="none" stroke="#ffd23f" stroke-width="6" stroke-linecap="round" />
+      <path d="M239 58 L284 58" fill="none" stroke="#ffd23f" stroke-width="6" stroke-linecap="round" />
+      <circle cx="262" cy="8" r="7" fill="#ff6f61" stroke="#0a0e1a" stroke-width="3" />
+    </g>
+
+    <!-- Phase 5 accessories -->
+    <g class="pluto__acc pluto__acc--flower" transform="rotate(22 238 64)">
+      <circle cx="238" cy="50" r="10" fill="#ffb3d1" stroke="#0a0e1a" stroke-width="3" />
+      <circle cx="252" cy="62" r="10" fill="#ffb3d1" stroke="#0a0e1a" stroke-width="3" />
+      <circle cx="246" cy="78" r="10" fill="#ffb3d1" stroke="#0a0e1a" stroke-width="3" />
+      <circle cx="230" cy="78" r="10" fill="#ffb3d1" stroke="#0a0e1a" stroke-width="3" />
+      <circle cx="224" cy="62" r="10" fill="#ffb3d1" stroke="#0a0e1a" stroke-width="3" />
+      <circle cx="238" cy="66" r="8" fill="#ffd23f" stroke="#0a0e1a" stroke-width="3" />
+    </g>
+
+    <g class="pluto__acc pluto__acc--pearls">
+      <circle cx="226" cy="96" r="7" fill="#fff" stroke="#0a0e1a" stroke-width="2.5" />
+      <circle cx="214" cy="126" r="7" fill="#fff" stroke="#0a0e1a" stroke-width="2.5" />
+      <circle cx="208" cy="158" r="7" fill="#fff" stroke="#0a0e1a" stroke-width="2.5" />
+      <circle cx="210" cy="190" r="7" fill="#fff" stroke="#0a0e1a" stroke-width="2.5" />
+      <circle cx="220" cy="220" r="7" fill="#fff" stroke="#0a0e1a" stroke-width="2.5" />
+    </g>
+  </svg>
+  </div>
+</div>

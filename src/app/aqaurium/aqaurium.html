@@ -1,0 +1,88 @@
+<div class="aquarium pluto-gift">
+  <div class="depth-haze"></div>
+  <div class="particles">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="bubbles">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="water-glow"></div>
+  <div class="light-rays"><span></span><span></span><span></span></div>
+
+  <div class="pluto-gift__topbar">
+    <div class="pluto-gift__brand"><span>🐟</span><div><strong>Pluto</strong><small>your little ocean friend</small></div></div>
+    <button class="pluto-gift__icon-btn" type="button" (click)="showInstructions = true" aria-label="How to play">?</button>
+    <button class="pluto-gift__icon-btn" type="button" (click)="showJourney = true" aria-label="30 day journey">🎁</button>
+  </div>
+
+  <div class="pluto-gift__welcome" *ngIf="showWelcome">
+    <div class="pluto-gift__card">
+      <div class="pluto-gift__sparkles">✦ ˚｡⋆ ✦</div>
+      <div class="pluto-gift__heart">💙</div>
+      <p class="pluto-gift__eyebrow">A tiny gift for you</p>
+      <h1>Meet Pluto</h1>
+      <p>He is a little blue tang with a big personality. Come visit him, take care of him, play with him, and slowly become his favourite human.</p>
+      <button class="pluto-gift__primary" type="button" (click)="closeWelcome()">Meet Pluto 🐟</button>
+      <button class="pluto-gift__text-btn" type="button" (click)="showInstructions = true; closeWelcome()">Tell me how it works</button>
+    </div>
+  </div>
+
+  <div class="pluto-gift__hint" *ngIf="!showWelcome && hintVisible">
+    <span>💡</span><span>{{ currentHint }}</span><button type="button" (click)="dismissHint()">×</button>
+  </div>
+
+  <div class="seabed">
+    <div class="sand-dunes">
+      <svg class="sand-layer bg-sand" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,40 C150,90 350,-10 600,50 C850,110 1050,20 1200,60 L1200,120 L0,120 Z"></path></svg>
+      <svg class="sand-layer fg-sand" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,70 C200,20 450,90 700,40 C950,-10 1100,70 1200,50 L1200,120 L0,120 Z"></path></svg>
+    </div>
+    <div class="rocks"><span class="rock rock-1"></span><span class="rock rock-2"></span><span class="rock rock-3"></span><span class="rock rock-4"></span><span class="rock rock-5"></span></div>
+    <div class="plants">
+      <div class="plant plant-bg p1"><span></span><span></span><span></span></div>
+      <div class="plant plant-fg p2"><span></span><span></span><span></span><span></span></div>
+      <div class="plant plant-bg p3"><span></span><span></span><span></span></div>
+      <div class="plant plant-fg p4"><span></span><span></span><span></span><span></span></div>
+      <div class="plant plant-bg p5"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <div class="foreground-glow"></div>
+  <app-pluto></app-pluto>
+
+  <div class="pluto-gift__modal" *ngIf="showInstructions || showJourney" (click)="closeModals()">
+    <section class="pluto-gift__sheet" (click)="$event.stopPropagation()">
+      <button class="pluto-gift__close" type="button" (click)="closeModals()">×</button>
+      <ng-container *ngIf="showInstructions">
+        <div class="pluto-gift__modal-icon">🫧</div>
+        <p class="pluto-gift__eyebrow">Pluto's little handbook</p>
+        <h2>How to be Pluto's human</h2>
+        <div class="pluto-gift__steps">
+          <div><b>👆 Visit him</b><span>Come say hello whenever you feel like it.</span></div>
+          <div><b>🍤 Take care of him</b><span>Feed him, pet him and notice what makes him happy.</span></div>
+          <div><b>🧸 Play together</b><span>Try his toys and discover which one becomes his favourite.</span></div>
+          <div><b>🌱 Watch him grow</b><span>Pluto remembers your visits and grows with time.</span></div>
+          <div><b>🎁 Keep the streak</b><span>Visit once a day to unlock your 30-day friendship rewards.</span></div>
+        </div>
+        <button class="pluto-gift__primary" type="button" (click)="closeModals()">Okay, I'll take care of him 💙</button>
+      </ng-container>
+
+      <ng-container *ngIf="showJourney">
+        <div class="pluto-gift__modal-icon">🎁</div>
+        <p class="pluto-gift__eyebrow">A little adventure</p>
+        <h2>30 days with Pluto</h2>
+        <p class="pluto-gift__sub">Every day you visit, another tiny piece of the journey becomes yours.</p>
+        <div class="pluto-gift__progress"><span [style.width.%]="progressPercent"></span></div>
+        <div class="pluto-gift__progress-label"><b>{{ completedDays }}/30 days</b><span>{{ progressPercent }}%</span></div>
+        <div class="pluto-gift__days">
+          <button *ngFor="let day of days" type="button" [class.done]="isDone(day)" [class.locked]="!isUnlocked(day)" [class.today]="day === nextDay" (click)="checkIn(day)">
+            <span class="day-num">{{ day }}</span><span class="day-icon">{{ rewardFor(day).emoji }}</span><span class="day-state">{{ isDone(day) ? '✓' : isUnlocked(day) ? 'Visit' : '🔒' }}</span>
+          </button>
+        </div>
+        <div class="pluto-gift__reward" [class.ready]="isUnlocked(nextDay) && !isDone(nextDay)">
+          <span>{{ rewardFor(nextDay).emoji }}</span><div><b>Day {{ nextDay }} reward</b><small>{{ rewardFor(nextDay).title }}</small></div>
+        </div>
+        <button class="pluto-gift__primary" type="button" [disabled]="isDone(nextDay) || !isUnlocked(nextDay)" (click)="checkIn(nextDay)">{{ isDone(nextDay) ? 'Today's visit is complete 💙' : 'Mark today’s visit ✓' }}</button>
+      </ng-container>
+    </section>
+  </div>
+</div>

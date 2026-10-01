@@ -1,0 +1,142 @@
+// Pluto's movement is driven from pluto.component.ts (one shared swim phase),
+// so this file only handles layout, transform origins, depth styling and growth colour.
+
+$pluto-shadow: rgba(0, 10, 30, 0.4);
+
+// Juvenile (yellow) -> adult (blue) palette. --pluto-blue is 0..100, set by the component.
+@function pluto-blend($blue, $yellow) {
+  @return unquote('color-mix(in srgb, #{$blue} calc(var(--pluto-blue) * 1%), #{$yellow})');
+}
+
+:host {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: clamp(160px, 22vw, 280px); // scales with the screen
+  pointer-events: none;             // clicks are handled by the aquarium
+  will-change: transform;
+  z-index: 6;                       // the component switches this between 4 (behind seabed) and 6 (in front)
+  --pluto-depth: 0.6;
+  --pluto-mood-sat: 1;
+  --pluto-growth: 0;                // 0..1, set by the component
+  --pluto-blue: 0;                  // 0 = yellow juvenile, 100 = blue adult
+
+  // hidden until the first frame has positioned him
+  opacity: 0;
+  transition: opacity 0.6s ease;
+
+  &.is-ready {
+    opacity: 1;
+  }
+}
+
+// Grumpy Pluto looks a little washed out
+:host([data-mood='annoyed']) {
+  --pluto-mood-sat: 0.8;
+}
+
+:host([data-mood='sulking']) {
+  --pluto-mood-sat: 0.5;
+}
+
+.pluto {
+  width: 100%;
+
+  // Far away: a little dimmer, softer and less saturated. Near: crisp and vivid.
+  opacity: calc(0.74 + var(--pluto-depth) * 0.26);
+  filter:
+    // bigger fish cast a longer, softer shadow
+    drop-shadow(0 calc(8px + var(--pluto-growth) * 6px) calc(12px + var(--pluto-growth) * 10px) $pluto-shadow)
+    saturate(calc(0.7 + var(--pluto-depth) * 0.3))
+    saturate(var(--pluto-mood-sat))
+    brightness(calc(0.78 + var(--pluto-depth) * 0.22))
+    blur(calc((1 - var(--pluto-depth)) * 0.8px));
+
+  &-fish {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  &__flip {
+    transform-origin: 50% 50%; // the SVG centre, which the TS landmarks assume
+    will-change: transform;
+  }
+
+  // Transform origins are in SVG coordinates (hence view-box)
+  &__layer-tail,
+  &__layer-fin-front,
+  &__layer-dorsal,
+  &__layer-anal,
+  &__layer-eye,
+  &__layer-mouth {
+    transform-box: view-box;
+  }
+
+  &__layer-tail {
+    transform-origin: 72px 174px;
+  }
+
+  &__layer-fin-front {
+    transform-origin: 214px 188px;
+  }
+
+  &__layer-dorsal {
+    transform-origin: 210px 66px;
+  }
+
+  &__layer-anal {
+    transform-origin: 200px 288px;
+  }
+
+  &__layer-eye {
+    transform-origin: 262px 138px;
+  }
+
+  &__layer-mouth {
+    transform-origin: 326px 186px;
+  }
+
+  // Wardrobe: hidden unless the component sets data-outfit on the host
+  &__acc {
+    display: none;
+  }
+}
+
+// Growth colour: the SVG attributes hold the adult blues, so browsers without color-mix()
+// simply stay blue. Where supported, the body and fins blend from yellow to blue as she grows.
+@supports (color: color-mix(in srgb, red, blue)) {
+  .pluto {
+    &__stop-body-a {
+      stop-color: pluto-blend(#3f93ff, #ffe566);
+    }
+
+    &__stop-body-b {
+      stop-color: pluto-blend(#1a3fc4, #f2a900);
+    }
+
+    &__layer-dorsal,
+    &__layer-anal {
+      fill: pluto-blend(#2160e0, #f7b500);
+    }
+
+    &__fin-front-fill {
+      fill: pluto-blend(#2d70ec, #ffcc33);
+    }
+
+    &__belly {
+      fill: pluto-blend(#8cc4ff, #fff3b0);
+    }
+  }
+}
+
+:host([data-outfit='bow']) .pluto__acc--bow,
+:host([data-outfit='shades']) .pluto__acc--shades,
+:host([data-outfit='party']) .pluto__acc--party,
+:host([data-outfit='crown']) .pluto__acc--crown,
+:host([data-outfit='flower']) .pluto__acc--flower,
+:host([data-outfit='pearls']) .pluto__acc--pearls {
+  display: inline;
+}
